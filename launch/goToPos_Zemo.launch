@@ -1,17 +1,20 @@
 <launch>
-    
-    <!-- if true controller_reconfigure node launches -->
-    <arg name="controller_reconfig" default="false"/> 
+    <!-- This launch file works with zemo robot hardware -->
 
-    <!-- go to position behaviour test in gazebo simulation -->
-    <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch" />
-    
+    <!-- if true controller_reconfigure node launches -->
+    <arg name="controller_reconfig" default="false"/>
+
+    <!-- for Zemo robot visualization in rviz -->
+    <param name="robot_description" command="$(find xacro)/xacro $(find zemo_rover)/urdf/zemo.xacro"/>
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find zemo_rover)/config/zemo_rviz.rviz"/>
+    <node name="RobotStatePublisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
     <!-- node that converts odom messages to pose2d message for the controller_server -->
     <node name="pose2d_publisher" pkg="turtle_controller" type="odom2pose.py"/>
     
     <!-- actual controller node  -->
     <node name="turtle_control_server" pkg="turtle_controller" type="controller_server" output="screen"/>
-    
+
     <node pkg="rqt_reconfigure" type="rqt_reconfigure" name="controller_reconfigure" 
       if="$(eval arg('controller_reconfig'))"/>
 </launch>

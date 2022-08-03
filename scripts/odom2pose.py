@@ -20,6 +20,6 @@ sub = rospy.Subscriber ('/odom', Odometry, get_rotation)
 pub = rospy.Publisher('/turtle_pose2d', Pose2D, queue_size=10)
 curr_pose = Pose2D()
 
-r = rospy.Rate(1)
+r = rospy.Rate(10)
 while not rospy.is_shutdown():
     r.sleep()

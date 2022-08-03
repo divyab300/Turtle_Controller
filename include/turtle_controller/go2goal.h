@@ -4,9 +4,15 @@
 #include <ros/ros.h>
 #include <geometry_msgs/Pose2D.h>
 #include <geometry_msgs/Twist.h>
+#include <dynamic_reconfigure/server.h>
+#include <turtle_controller/Go2GoalConfig.h>
 #include "turtle_controller/NavTarget.h"
 
-bool controller_busy;
+bool controller_start; //for the first goal receive and controller start
+bool reached_goal; // for one time print message
+
+float goal_tolarance = 0.08; // acceptable error in goal 
+
 float Kv = 0.5; // velocity gain
 float Kh = 0.5; // heading gain
 float x_vel_max = 0.5; // Maximum linear velocity
